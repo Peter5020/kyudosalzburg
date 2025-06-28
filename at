@@ -1,0 +1,530 @@
+import React, { useState, useEffect } from 'react';
+import { Menu, X, Target, Users, Clock, MapPin, Phone, Mail, ChevronDown, Zap, Heart, Mountain } from 'lucide-react';
+
+function App() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setIsMenuOpen(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-stone-50">
+      {/* Navigation */}
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
+      }`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-3">
+              <Target className="h-8 w-8 text-red-800" />
+              <div className="flex items-center space-x-2">
+                <span className="text-lg japanese-calligraphy text-red-800">残心</span>
+                <span className="text-lg font-bold text-gray-900">Zanshin</span>
+              </div>
+            </div>
+            
+            <div className="hidden md:flex space-x-8">
+              {[
+                { key: 'about', label: 'Über uns' },
+                { key: 'training', label: 'Training' },
+                { key: 'philosophy', label: 'Philosophie' },
+                { key: 'schedule', label: 'Zeitplan' },
+                { key: 'contact', label: 'Kontakt' }
+              ].map((item) => (
+                <button
+                  key={item.key}
+                  onClick={() => scrollToSection(item.key)}
+                  className="text-gray-700 hover:text-red-800 transition-colors duration-200 font-medium"
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+
+            <button
+              className="md:hidden"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-white border-t shadow-lg">
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              {[
+                { key: 'about', label: 'Über uns' },
+                { key: 'training', label: 'Training' },
+                { key: 'philosophy', label: 'Philosophie' },
+                { key: 'schedule', label: 'Zeitplan' },
+                { key: 'contact', label: 'Kontakt' }
+              ].map((item) => (
+                <button
+                  key={item.key}
+                  onClick={() => scrollToSection(item.key)}
+                  className="block w-full text-left px-3 py-2 text-gray-700 hover:text-red-800 hover:bg-red-50 transition-colors duration-200"
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </nav>
+
+      {/* Hero Section */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: 'url(/07daa477-5130-4832-9e8e-09368c0e723b.png)'
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60"></div>
+        </div>
+        
+        <div className="relative z-10 text-center text-white max-w-4xl px-4">
+          <h1 className="text-4xl md:text-6xl japanese-calligraphy-hero mb-6 animate-fade-in text-white">
+            残心弓道会
+          </h1>
+          <h2 className="text-2xl md:text-4xl font-light mb-8 opacity-90">
+            Zanshin Kyudo Salzburg
+          </h2>
+          <p className="text-xl md:text-2xl mb-12 max-w-2xl mx-auto leading-relaxed opacity-90">
+            Entdecken Sie die alte Kunst des japanischen Bogenschießens durch achtsame Praxis, 
+            spirituelles Wachstum und traditionelle Techniken, die über Generationen weitergegeben wurden.
+          </p>
+          <button
+            onClick={() => scrollToSection('about')}
+            className="bg-red-800 hover:bg-red-900 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
+          >
+            Beginnen Sie Ihre Reise
+          </button>
+        </div>
+
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <ChevronDown className="h-8 w-8 text-white/70" />
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Der Weg des Bogens</h2>
+            <div className="w-24 h-1 bg-red-800 mx-auto mb-8"></div>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Kyudo, wörtlich „der Weg des Bogens", ist mehr als Bogenschießen—es ist ein Pfad zur Selbstfindung, 
+              Achtsamkeit und spirituellem Wachstum durch die disziplinierte Praxis des traditionellen japanischen Bogenschießens.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <img
+                src="https://images.pexels.com/photos/8364026/pexels-photo-8364026.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="Traditionelle Kyudo-Praxis"
+                className="rounded-lg shadow-2xl"
+              />
+            </div>
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold text-gray-900">Eine lebende Tradition</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Unser Verein bewahrt die authentischen Traditionen des Kyudo, wie sie vom Gesamtjapanischen Kyudo-Verband 
+                etabliert wurden. Wir praktizieren die zeremonielle Schießform, bekannt als „Shaho-Hassetsu" 
+                (Acht Stufen des Schießens), mit Betonung auf korrekter Form, Atmung und geistiger Disziplin.
+              </p>
+              <p className="text-gray-600 leading-relaxed">
+                Ob Sie körperliche Fitness, geistige Klarheit oder spirituelles Wachstum suchen, 
+                Kyudo bietet einen einzigartigen Pfad, der Meditation in Bewegung mit der Zufriedenheit 
+                der Entwicklung traditioneller Fertigkeiten verbindet.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Training Section */}
+      <section id="training" className="py-20 bg-stone-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Trainingsprogramme</h2>
+            <div className="w-24 h-1 bg-red-800 mx-auto mb-8"></div>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Unsere strukturierten Trainingsprogramme sind für alle Niveaus geeignet, von kompletten Anfängern 
+              bis zu fortgeschrittenen Praktizierenden, die ihr Verständnis vertiefen möchten.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white rounded-lg shadow-lg p-8 transform hover:scale-105 transition-all duration-300">
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Users className="h-8 w-8 text-red-800" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900">Anfängerkurs</h3>
+              </div>
+              <ul className="space-y-3 text-gray-600 mb-6">
+                <li>• Einführung in die Kyudo-Philosophie</li>
+                <li>• Grundlegende Haltung und Atmung</li>
+                <li>• Ausrüstungsvertrautheit</li>
+                <li>• Sicherheitsprotokolle</li>
+                <li>• Erste Schießtechniken</li>
+              </ul>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-red-800 mb-2">8 Wochen</div>
+                <div className="text-gray-600">Vollständige Grundlage</div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg shadow-lg p-8 transform hover:scale-105 transition-all duration-300">
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Target className="h-8 w-8 text-red-800" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900">Fortgeschrittenentraining</h3>
+              </div>
+              <ul className="space-y-3 text-gray-600 mb-6">
+                <li>• Verfeinerung der Schießform</li>
+                <li>• Fortgeschrittene Atemtechniken</li>
+                <li>• Zeremonielle Schießpraxis</li>
+                <li>• Entwicklung geistiger Disziplin</li>
+                <li>• Wettkampfvorbereitung</li>
+              </ul>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-red-800 mb-2">Fortlaufend</div>
+                <div className="text-gray-600">Fertigkeitsentwicklung</div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg shadow-lg p-8 transform hover:scale-105 transition-all duration-300">
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Mountain className="h-8 w-8 text-red-800" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900">Meisterklasse</h3>
+              </div>
+              <ul className="space-y-3 text-gray-600 mb-6">
+                <li>• Fortgeschrittene Kata und Zeremonie</li>
+                <li>• Lehrmethodik</li>
+                <li>• Spirituelle Aspekte des Kyudo</li>
+                <li>• Führungsentwicklung</li>
+                <li>• Dan-Grad Vorbereitung</li>
+              </ul>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-red-800 mb-2">Nur auf Einladung</div>
+                <div className="text-gray-600">Fortgeschrittene Praxis</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Philosophy Section */}
+      <section id="philosophy" className="py-20 bg-gray-900 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">Die Philosophie des Kyudo</h2>
+            <div className="w-24 h-1 bg-red-600 mx-auto mb-8"></div>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Kyudo übersteigt die bloße Bogenschießtechnik und verkörpert tiefgreifende Prinzipien, 
+              die sowohl die Praxis als auch das tägliche Leben leiten.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="w-20 h-20 bg-red-800 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Heart className="h-10 w-10 text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-4">Shin (Wahrheit)</h3>
+              <p className="text-gray-300 leading-relaxed">
+                Die Suche nach Wahrheit durch ehrliche Selbstreflexion und authentische Praxis. 
+                Jeder Schuss ist eine Gelegenheit, tiefere Wahrheiten über sich selbst zu entdecken.
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-20 h-20 bg-red-800 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Zap className="h-10 w-10 text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-4">Zen (Güte)</h3>
+              <p className="text-gray-300 leading-relaxed">
+                Die Kultivierung von Güte und Mitgefühl durch disziplinierte Praxis. 
+                Der Bogen wird zu einem Werkzeug für persönliche Transformation und Wachstum.
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-20 h-20 bg-red-800 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Target className="h-10 w-10 text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-4">Bi (Schönheit)</h3>
+              <p className="text-gray-300 leading-relaxed">
+                Das Finden von Schönheit in perfekter Form und anmutiger Bewegung. 
+                Die Ästhetik des Kyudo spiegelt die Harmonie zwischen Bogenschütze, Bogen und Ziel wider.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-16 text-center">
+            <blockquote className="text-2xl font-light italic text-gray-300 max-w-4xl mx-auto">
+              „Im Kyudo zielen wir nicht mit unseren Augen auf das Ziel, sondern mit unserem Herzen. 
+              Der Pfeil folgt dem Geist, und der Geist sucht die Wahrheit."
+            </blockquote>
+            <cite className="block mt-4 text-red-400">— Traditionelle Kyudo-Lehre</cite>
+          </div>
+        </div>
+      </section>
+
+      {/* Schedule Section */}
+      <section id="schedule" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Trainingszeiten</h2>
+            <div className="w-24 h-1 bg-red-800 mx-auto mb-8"></div>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Nehmen Sie an unseren regelmäßigen Trainingsstunden in unserem traditionellen Dojo teil. 
+              Alle Kurse beinhalten Meditation, Aufwärmung, Technikpraxis und Schießen.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-12">
+            <div className="bg-stone-50 rounded-lg p-8">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                <Clock className="h-6 w-6 text-red-800 mr-3" />
+                Wöchentliche Kurse
+              </h3>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center py-3 border-b border-gray-200">
+                  <div>
+                    <div className="font-semibold text-gray-900">Montagabend</div>
+                    <div className="text-gray-600">Anfänger & Fortgeschrittene</div>
+                  </div>
+                  <div className="text-red-800 font-semibold">19:00 - 21:00</div>
+                </div>
+                <div className="flex justify-between items-center py-3 border-b border-gray-200">
+                  <div>
+                    <div className="font-semibold text-gray-900">Mittwochabend</div>
+                    <div className="text-gray-600">Alle Niveaus</div>
+                  </div>
+                  <div className="text-red-800 font-semibold">19:00 - 21:00</div>
+                </div>
+                <div className="flex justify-between items-center py-3 border-b border-gray-200">
+                  <div>
+                    <div className="font-semibold text-gray-900">Samstagmorgen</div>
+                    <div className="text-gray-600">Fortgeschrittene & Meisterklasse</div>
+                  </div>
+                  <div className="text-red-800 font-semibold">09:00 - 11:00</div>
+                </div>
+                <div className="flex justify-between items-center py-3">
+                  <div>
+                    <div className="font-semibold text-gray-900">Sonntagnachmittag</div>
+                    <div className="text-gray-600">Freies Training</div>
+                  </div>
+                  <div className="text-red-800 font-semibold">14:00 - 17:00</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-stone-50 rounded-lg p-8">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                <MapPin className="h-6 w-6 text-red-800 mr-3" />
+                Standort & Einrichtungen
+              </h3>
+              <div className="space-y-4">
+                <div>
+                  <h4 className="font-semibold text-gray-900">Zanshin Dojo</h4>
+                  <p className="text-gray-600">
+                    Mönchsberg-Weg 42<br />
+                    5020 Salzburg, Österreich
+                  </p>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Einrichtungen</h4>
+                  <ul className="text-gray-600 space-y-1">
+                    <li>• Traditioneller 28-Meter Schießstand</li>
+                    <li>• Meditations- und Umkleideräume</li>
+                    <li>• Ausrüstungslager und Wartung</li>
+                    <li>• Teezeremonie-Raum</li>
+                    <li>• Parkplätze verfügbar</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Was mitbringen</h4>
+                  <p className="text-gray-600">
+                    Bequeme Kleidung, die freie Bewegung ermöglicht. 
+                    Alle Ausrüstung wird für Anfänger bereitgestellt.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-20 bg-stone-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Beginnen Sie Ihre Reise</h2>
+            <div className="w-24 h-1 bg-red-800 mx-auto mb-8"></div>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Bereit, den Weg des Bogens zu entdecken? Kontaktieren Sie uns, um eine Probestunde zu vereinbaren 
+              oder mehr über unsere Trainingsprogramme zu erfahren.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-12">
+            <div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">Kontakt aufnehmen</h3>
+              <div className="space-y-4 mb-8">
+                <div className="flex items-center">
+                  <Phone className="h-5 w-5 text-red-800 mr-4" />
+                  <span className="text-gray-600">+43 662 555-KYUDO</span>
+                </div>
+                <div className="flex items-center">
+                  <Mail className="h-5 w-5 text-red-800 mr-4" />
+                  <span className="text-gray-600">info@zanshinkyudo.at</span>
+                </div>
+                <div className="flex items-center">
+                  <MapPin className="h-5 w-5 text-red-800 mr-4" />
+                  <span className="text-gray-600">Mönchsberg-Weg 42, 5020 Salzburg</span>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-lg p-6 shadow-lg">
+                <h4 className="text-lg font-semibold text-gray-900 mb-4">Kostenlose Probestunde</h4>
+                <p className="text-gray-600 mb-4">
+                  Neue Schüler können eine kostenlose Probestunde besuchen, um Kyudo zu erleben 
+                  und unsere Gemeinschaft kennenzulernen. Keine Ausrüstung oder Erfahrung erforderlich.
+                </p>
+                <button className="bg-red-800 hover:bg-red-900 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200">
+                  Probestunde vereinbaren
+                </button>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg shadow-lg p-8">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">Nachricht senden</h3>
+              <form className="space-y-4">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                    Vollständiger Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-800 focus:border-transparent"
+                    placeholder="Ihr Name"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                    E-Mail-Adresse
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-800 focus:border-transparent"
+                    placeholder="ihre.email@beispiel.at"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="experience" className="block text-sm font-medium text-gray-700 mb-1">
+                    Erfahrungsniveau
+                  </label>
+                  <select
+                    id="experience"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-800 focus:border-transparent"
+                  >
+                    <option>Kompletter Anfänger</option>
+                    <option>Etwas Bogenschießerfahrung</option>
+                    <option>Vorherige Kyudo-Ausbildung</option>
+                    <option>Fortgeschrittener Praktizierender</option>
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                    Nachricht
+                  </label>
+                  <textarea
+                    id="message"
+                    rows={4}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-800 focus:border-transparent"
+                    placeholder="Erzählen Sie uns von Ihrem Interesse an Kyudo..."
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  className="w-full bg-red-800 hover:bg-red-900 text-white py-3 rounded-lg font-semibold transition-colors duration-200"
+                >
+                  Nachricht senden
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-3 gap-8">
+            <div>
+              <div className="flex items-center space-x-3 mb-4">
+                <Target className="h-8 w-8 text-red-600" />
+                <div className="flex items-center space-x-2">
+                  <span className="text-lg japanese-calligraphy text-red-600">残心</span>
+                  <span className="text-xl font-bold">Zanshin Kyudo Salzburg</span>
+                </div>
+              </div>
+              <p className="text-gray-400 leading-relaxed">
+                Die traditionelle Kunst des japanischen Bogenschießens durch achtsame Praxis, 
+                spirituelles Wachstum und Gemeinschaftsverbindung bewahren.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Schnelllinks</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><button onClick={() => scrollToSection('about')} className="hover:text-white transition-colors">Über Kyudo</button></li>
+                <li><button onClick={() => scrollToSection('training')} className="hover:text-white transition-colors">Trainingsprogramme</button></li>
+                <li><button onClick={() => scrollToSection('schedule')} className="hover:text-white transition-colors">Zeitplan</button></li>
+                <li><button onClick={() => scrollToSection('contact')} className="hover:text-white transition-colors">Kontakt</button></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Trainingszeiten</h4>
+              <div className="text-gray-400 space-y-1">
+                <div>Montag & Mittwoch: 19:00 - 21:00</div>
+                <div>Samstag: 09:00 - 11:00</div>
+                <div>Sonntag: 14:00 - 17:00</div>
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2024 Zanshin Kyudo Salzburg. Alle Rechte vorbehalten. | Tradition bewahren, Wachstum fördern.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+export default App;
